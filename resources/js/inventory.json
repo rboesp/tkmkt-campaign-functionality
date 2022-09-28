@@ -1,0 +1,16 @@
+[
+    {
+        "make": "volvo",
+        "model": "xc90",
+        "text": "Get your volvo XC90 today!",
+        "background_img": "/assets/xc90.jpg",
+        "logo_img": "/assets/volvo_dealer.png"
+    },
+    {
+        "make": "infiniti",
+        "model": "g30",
+        "text": "Life is better in an infiniti...",
+        "background_img": "/assets/qx60.jpg",
+        "logo_img": "/assets/infiniti_dealer.png"
+    }
+]

@@ -8,17 +8,14 @@ function uuidv4() {
 }
 
 
-function inventory(make, model, text, background_img, logo_img) {
-    const id = uuidv4()
-    return {
-        id,
-        model,
-        make,
-        text,
-        background_img,
-        logo_img
-    }
-}
+// function inventory(item) {
+
+//     const id = uuidv4()
+//     return {
+//         id,
+//         ...item
+//     }
+// }
 
 function renderTag(childID, parentID) {
     const parent = document.getElementById(parentID)
@@ -87,10 +84,13 @@ const createAd = ad_data => {
 
 //TODO: get this data from file or database
 
-const inventory_data = [
-    inventory('volvo', 'xc90', 'Get your volvo XC90 today!', '/assets/xc90.jpg', '/assets/volvo_dealer.png'),
-    inventory('infiniti', 'g30', 'Life is better in an infiniti...', '/assets/qx60.jpg', '/assets/infiniti_dealer.png'),
-]
+import inventory_data from './inventory.json'
+
+//adds id to inventory item if needed
+//
+// const inventory_data = serialized_inventory.map(item => {
+// return inventory(item)
+// })
 
 const parent_ad_container = 'ad_container'
 const dynamicTag = dynamicTagRender(parent_ad_container)
