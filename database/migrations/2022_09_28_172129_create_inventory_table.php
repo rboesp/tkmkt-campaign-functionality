@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('inventory', function (Blueprint $table) {
+        Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             // $table->foreignId('inventory_csv_id')->constrained('inventory_csvs')->onDelete('cascade')->onUpdate('cascade');
             // $table->foreignId('template_id')->constrained('templates')->onDelete('cascade')->onUpdate('cascade');
@@ -23,7 +23,7 @@ return new class extends Migration
             // $table->string('year')->nullable();
             $table->string('make')->nullable();
             $table->string('model')->nullable();
-            $table->string('text')->nullable();            
+            $table->string('text')->nullable();
             $table->string('background_img')->nullable();
             $table->string('logo_img')->nullable();
             // $table->string('type')->nullable();
@@ -45,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventory');
+        Schema::dropIfExists('inventories');
     }
 };
