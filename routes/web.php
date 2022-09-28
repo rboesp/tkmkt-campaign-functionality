@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // $inventory_data = Inventory::find(1)->first()->toArray();
+    $models = Inventory::whereIn('id', [1, 2, 3])->get();
+    // return 'hi';
+    return view('welcome', [
+        'inventory_data' => $models->toArray()
+    ]);
 });

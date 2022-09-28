@@ -26,8 +26,9 @@
         download
     </button> -->
 
-    <script>
-
+    <script>    
+        var inventory_data = {!! json_encode($inventory_data, JSON_HEX_TAG) !!};
+        console.log(inventory_data);
     </script>
 
 </body>

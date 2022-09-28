@@ -1,6 +1,6 @@
 import './bootstrap';
 import template from './template'
-import inventory_data from './inventory.json'
+// import inventory_data from './inventory.json'
 
 
 // function uuidv4() {
