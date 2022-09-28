@@ -1,4 +1,5 @@
 import './bootstrap';
+import template from './template'
 
 function uuidv4() {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -83,6 +84,9 @@ const createAd = ad_data => {
 }
 
 //entry point
+
+//TODO: get this data from file or database
+
 const inventory_data = [
     inventory('volvo', 'xc90', 'Get your volvo XC90 today!', '/assets/xc90.jpg', '/assets/volvo_dealer.png'),
     inventory('infiniti', 'g30', 'Life is better in an infiniti...', '/assets/qx60.jpg', '/assets/infiniti_dealer.png'),
