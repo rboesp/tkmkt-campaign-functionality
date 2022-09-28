@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Inventory;
+use App\Models\Template;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // $inventory_data = Inventory::find(1)->first()->toArray();
-    $models = Inventory::whereIn('id', [1, 2, 3])->get();
-    // return 'hi';
+    $templates = Template::whereIn('id', [1, 2, 3])->get();
+    $inventory = Inventory::whereIn('id', [1, 2, 3])->get();
     return view('welcome', [
-        'inventory_data' => $models->toArray()
+        'inventory_data' => $inventory->toArray(),
+        'templates' => $templates->toArray()
     ]);
 });

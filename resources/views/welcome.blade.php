@@ -27,8 +27,10 @@
     </button> -->
 
     <script>    
+        var templates = {!! json_encode($templates, JSON_HEX_TAG) !!}
         var inventory_data = {!! json_encode($inventory_data, JSON_HEX_TAG) !!};
         console.log(inventory_data);
+        console.log(templates);
     </script>
 
 </body>

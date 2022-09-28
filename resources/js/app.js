@@ -1,5 +1,6 @@
+import { template, templateSettings } from 'lodash';
 import './bootstrap';
-import template from './template'
+// import template from './template'
 // import inventory_data from './inventory.json'
 
 
@@ -22,7 +23,7 @@ import template from './template'
 function renderTag(childID, parentID) {
     const parent = document.getElementById(parentID)
     const child = document.createElement('DIV')
-    child.setAttribute('id', childID)
+    child.setAttribute('id', childID) //container#...
     return parent.appendChild(child)
 }
 
@@ -72,7 +73,7 @@ function loadStage(json, id) {
     return Konva.Node.create(json, id);
 }
 
-const createAd = ad_data => {
+const createAd = (ad_data, template) => {
     const tagID = `stage_${ad_data.make}_${ad_data.model}_${ad_data.id}`
     const tag = dynamicTag(tagID);
     console.log(tag.id);
@@ -96,4 +97,11 @@ const parent_ad_container = 'ad_container'
 const dynamicTag = dynamicTagRender(parent_ad_container)
 
 //show ads
-inventory_data.forEach(createAd)
+// inventory_data.forEach(createAd)
+
+templates.forEach(template => {
+    inventory_data.forEach(inventory_item => {
+        const data = JSON.parse(template.data)
+        createAd(inventory_item, data)
+    })
+})
