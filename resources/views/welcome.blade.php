@@ -14,6 +14,8 @@
             background-color: #f0f0f0;
         }
     </style>
+
+    @vite('resources/js/app.js')
 </head>
 
 <body>
