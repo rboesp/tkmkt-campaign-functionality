@@ -1,11 +1,13 @@
 import './bootstrap';
 import template from './template'
+import inventory_data from './inventory.json'
 
-function uuidv4() {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
-}
+
+// function uuidv4() {
+//     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+//         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+//     );
+// }
 
 
 // function inventory(item) {
@@ -83,8 +85,6 @@ const createAd = ad_data => {
 //entry point
 
 //TODO: get this data from file or database
-
-import inventory_data from './inventory.json'
 
 //adds id to inventory item if needed
 //
