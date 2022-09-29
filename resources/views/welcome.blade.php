@@ -3,6 +3,9 @@
 
 <head>
     <script src="https://unpkg.com/konva@8.3.12/konva.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.6.1.min.js' integrity='sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=' crossorigin='anonymous'></script>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css' integrity='sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N' crossorigin='anonymous'>
+
 
     <meta charset="utf-8" />
     <title>Konva Simple Load Demo</title>
@@ -19,12 +22,15 @@
 </head>
 
 <body style="overflow-y: scroll">
-    <div id="ad_container" >
-    </div>
+    <div class="container">
+        Cars
+        <div id="ad_container" class="d-flex flex-wrap">
 
-    <!-- <button id="download">
-        download
-    </button> -->
+        </div>
+        <!-- <button id="download">
+            download
+        </button> -->
+    </div>
 
     <script>    
         var templates = {!! json_encode($templates, JSON_HEX_TAG) !!}
