@@ -2,11 +2,19 @@ import './bootstrap';
 
 
 function renderTag(childID, parentID) {
-    const parent = document.getElementById(parentID)
-    const child = document.createElement('DIV')
-    child.setAttribute('id', childID) //container#...
-    child.setAttribute('class', 'm-5')
-    return parent.appendChild(child)
+    const ad_preview = $(`
+        <div class='m-5 border' id=${childID}>
+        </div>
+    `)
+
+    const parent = $("#" + parentID)
+    parent.append(ad_preview);
+    return ad_preview[0];
+    //old
+    // const child = document.createElement('DIV')
+    // child.setAttribute('id', childID) //container#...
+    // child.setAttribute('class', 'm-5')
+    // return parent.appendChild(child)
 }
 
 function dynamicTagRender(parentID) {
@@ -55,13 +63,26 @@ function loadStage(json, id) {
     return Konva.Node.create(json, id);
 }
 
+function uuidv4() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
+
 const createAd = (ad_data, template) => {
-    const tagID = `stage_${ad_data.make}_${ad_data.model}_${ad_data.id}`
+    const id = uuidv4()
+    const tagID = `stage_${ad_data.make}_${ad_data.model}_${id}`
+
+    //add tag to dom
     const tag = dynamicTag(tagID);
-    console.log(tag.id);
+
+    console.log(tag)
 
     //load template canvas into tag with ad data
     const stage = loadStage(template, tag)
+    const { height, width } = template.attrs
+    $('#' + tagID).prepend(`<h1>height: ${height} width: ${width}</h1>`)
     canvas(stage, ad_data)
 }
 
@@ -82,8 +103,11 @@ const dynamicTag = dynamicTagRender(parent_ad_container)
 // inventory_data.forEach(createAd)
 
 templates.forEach(template => {
+    const data = JSON.parse(template.data)
+    const { attrs } = data
+    const { width, height } = attrs
+    console.log(width, height)
     inventory_data.forEach(inventory_item => {
-        const data = JSON.parse(template.data)
         createAd(inventory_item, data)
     })
 })

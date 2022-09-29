@@ -21,16 +21,23 @@
     @vite('resources/js/app.js')
 </head>
 
+{{-- <template id="ad-preview">
+    <slot class="class='m-5" name='my-text'></slot>
+</template> --}}
+
 <body style="overflow-y: scroll">
     <div class="container">
         Cars
-        <div id="ad_container" class="d-flex flex-wrap">
-
+        <div id="ad_container" class="d-flex flex-wrap border">
         </div>
-        <!-- <button id="download">
-            download
-        </button> -->
     </div>
+
+    {{-- <div>
+        <h5>Height: 380</h5>
+        <h5>Width: 380</h5>
+        <div class='m-5' id=${childID}>
+        </div>
+    </div> --}}
 
     <script>    
         var templates = {!! json_encode($templates, JSON_HEX_TAG) !!}
