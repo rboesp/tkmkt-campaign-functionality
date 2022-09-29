@@ -5,6 +5,7 @@ function renderTag(childID, parentID) {
     const parent = document.getElementById(parentID)
     const child = document.createElement('DIV')
     child.setAttribute('id', childID) //container#...
+    child.setAttribute('class', 'm-5')
     return parent.appendChild(child)
 }
 
