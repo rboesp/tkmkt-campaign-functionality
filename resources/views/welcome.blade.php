@@ -18,8 +18,8 @@
     @vite('resources/js/app.js')
 </head>
 
-<body>
-    <div id="ad_container">
+<body style="overflow-y: scroll">
+    <div id="ad_container" >
     </div>
 
     <!-- <button id="download">
