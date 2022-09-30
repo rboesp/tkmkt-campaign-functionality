@@ -30,7 +30,7 @@ function complete(stage, image_object, image_node) {
     // downloadURI(dataURL, 'stage.png');
 }
 
-function canvas(stage, data) {
+function renderStage(stage, data) {
     //replace text
     let text = stage.findOne('Text')
     text.setAttr('text', data.text)
@@ -70,6 +70,16 @@ function createID(ad_data) {
         return tagID
 }
 
+function c(width, height) {
+    const ad_row_container_id = `canvas_${width}x${height}_row`
+    const ad_row_heading = $(`<div>
+        <h5>Size: ${width}x${height}</h5>
+    </div>`)
+    const ad_row_container = renderAdRowContainer(ad_row_container_id, 'ad_container')
+    ad_row_container.append(ad_row_heading)
+    return ad_row_container
+}
+
 //entry point
 
 templates.forEach(template => {
@@ -78,17 +88,12 @@ templates.forEach(template => {
     const { width, height } = attrs
     console.log(width, height)
 
-    const ad_row_container_id = `canvas_${width}x${height}_row`
-    const ad_row_container = renderAdRowContainer(ad_row_container_id, 'ad_container')
-    const ad_row_heading = $(`<div>
-        <h5>Size: ${width}x${height}</h5>
-    </div>`)
-    ad_row_container.append(ad_row_heading)
+    const ad_row_container = c(width, height)
 
     inventory_data.forEach(inventory_item => {
         const ad_id = createID(template_data)
         const tag = renderCanvasContainer(ad_id, ad_row_container);
         const stage = loadStage(template_data, tag)
-        canvas(stage, inventory_item)
+        renderStage(stage, inventory_item)
     })
 })
