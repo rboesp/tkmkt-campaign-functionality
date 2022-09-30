@@ -8,13 +8,14 @@ function renderCanvasContainer(childID, parent) {
     `)
     parent.append(ad_preview);
     return ad_preview[0];
-    //old
-    // const child = document.createElement('DIV')
-    // child.setAttribute('id', childID) //container#...
-    // child.setAttribute('class', 'm-5')
-    // return parent.appendChild(child)
 }
 
+function renderAdRowContainer(rowID, parentID) {
+    const parent = $("#" + parentID)
+    const row = $(`<div class='border border-secondary d-flex' id=${rowID}></div>`)
+    parent.append(row)
+    return row
+}
 
 function getImage(type, data) {
     if (type === 'logo') return data.logo_img
@@ -62,41 +63,14 @@ function uuidv4() {
     );
 }
 
-
-const createAd = (ad_data, template, row) => {
-    //make unique id with some template data
-    const id = uuidv4()
-    const tagID = `stage_${ad_data.make}_${ad_data.model}_${id}`
-
-    //create tag and add to dom
-    const tag = renderCanvasContainer(tagID, row);
-    console.log(tag)
-
-    //create a stage and replace template with ad data
-    const stage = loadStage(template, tag)
-    canvas(stage, ad_data)
-}
-
-function renderAdRowContainer(rowID, parentID) {
-    const parent = $("#" + parentID)
-    const row = $(`<div class='border border-secondary d-flex' id=${rowID}></div>`)
-    parent.append(row)
-    return row
+function createID(ad_data) {
+        //make unique id with some template data
+        const id = uuidv4()
+        const tagID = `stage_${ad_data.make}_${ad_data.model}_${id}`
+        return tagID
 }
 
 //entry point
-
-//TODO: get this data from file or database
-
-//adds id to inventory item if needed
-//
-// const inventory_data = serialized_inventory.map(item => {
-// return inventory(item)
-// })
-
-
-//show ads
-// inventory_data.forEach(createAd)
 
 templates.forEach(template => {
     const template_data = JSON.parse(template.data)
@@ -112,7 +86,9 @@ templates.forEach(template => {
     ad_row_container.append(ad_row_heading)
 
     inventory_data.forEach(inventory_item => {
-        //TODO: take out row and append in the outer for each
-        createAd(inventory_item, template_data, ad_row_container)
+        const ad_id = createID(template_data)
+        const tag = renderCanvasContainer(ad_id, ad_row_container);
+        const stage = loadStage(template_data, tag)
+        canvas(stage, inventory_item)
     })
 })
