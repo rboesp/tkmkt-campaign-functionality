@@ -1,13 +1,11 @@
 import './bootstrap';
 
 
-function renderTag(childID, parentID) {
+function renderCanvasContainer(childID, parent) {
     const ad_preview = $(`
-        <div class='m-5 border' id=${childID}>
+        <div class='m-5 border border-primary' id=${childID}>
         </div>
     `)
-
-    const parent = $("#" + parentID)
     parent.append(ad_preview);
     return ad_preview[0];
     //old
@@ -17,11 +15,6 @@ function renderTag(childID, parentID) {
     // return parent.appendChild(child)
 }
 
-function dynamicTagRender(parentID) {
-    return function (childID) {
-        return renderTag(childID, parentID)
-    }
-}
 
 function getImage(type, data) {
     if (type === 'logo') return data.logo_img
@@ -70,20 +63,25 @@ function uuidv4() {
 }
 
 
-const createAd = (ad_data, template) => {
+const createAd = (ad_data, template, row) => {
+    //make unique id with some template data
     const id = uuidv4()
     const tagID = `stage_${ad_data.make}_${ad_data.model}_${id}`
 
-    //add tag to dom
-    const tag = dynamicTag(tagID);
-
+    //create tag and add to dom
+    const tag = renderCanvasContainer(tagID, row);
     console.log(tag)
 
-    //load template canvas into tag with ad data
+    //create a stage and replace template with ad data
     const stage = loadStage(template, tag)
-    const { height, width } = template.attrs
-    $('#' + tagID).prepend(`<h1>height: ${height} width: ${width}</h1>`)
     canvas(stage, ad_data)
+}
+
+function renderAdRowContainer(rowID, parentID) {
+    const parent = $("#" + parentID)
+    const row = $(`<div class='border border-secondary d-flex' id=${rowID}></div>`)
+    parent.append(row)
+    return row
 }
 
 //entry point
@@ -96,18 +94,25 @@ const createAd = (ad_data, template) => {
 // return inventory(item)
 // })
 
-const parent_ad_container = 'ad_container'
-const dynamicTag = dynamicTagRender(parent_ad_container)
 
 //show ads
 // inventory_data.forEach(createAd)
 
 templates.forEach(template => {
-    const data = JSON.parse(template.data)
-    const { attrs } = data
+    const template_data = JSON.parse(template.data)
+    const { attrs } = template_data
     const { width, height } = attrs
     console.log(width, height)
+
+    const ad_row_container_id = `canvas_${width}x${height}_row`
+    const ad_row_container = renderAdRowContainer(ad_row_container_id, 'ad_container')
+    const ad_row_heading = $(`<div>
+        <h5>Size: ${width}x${height}</h5>
+    </div>`)
+    ad_row_container.append(ad_row_heading)
+
     inventory_data.forEach(inventory_item => {
-        createAd(inventory_item, data)
+        //TODO: take out row and append in the outer for each
+        createAd(inventory_item, template_data, ad_row_container)
     })
 })

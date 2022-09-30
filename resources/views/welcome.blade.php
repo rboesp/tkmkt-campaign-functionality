@@ -26,11 +26,13 @@
 </template> --}}
 
 <body style="overflow-y: scroll">
-    <div class="container">
+    <div>
         Cars
         <div id="ad_container" class="d-flex flex-wrap border">
         </div>
     </div>
+
+    
 
     {{-- <div>
         <h5>Height: 380</h5>
