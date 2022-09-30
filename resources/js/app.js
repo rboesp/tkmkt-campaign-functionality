@@ -1,9 +1,15 @@
 import './bootstrap';
 
+function uuidv4() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
 
 function renderCanvasContainer(childID, parent) {
     const ad_preview = $(`
-        <div class='m-5 border border-primary' id=${childID}>
+        <div class='m-1 border border-primary' id=${childID}>
         </div>
     `)
     parent.append(ad_preview);
@@ -12,7 +18,7 @@ function renderCanvasContainer(childID, parent) {
 
 function renderAdRowContainer(rowID, parentID) {
     const parent = $("#" + parentID)
-    const row = $(`<div class='border border-secondary d-flex' id=${rowID}></div>`)
+    const row = $(`<div class='border border-secondary d-flex flex-wrap' id=${rowID}></div>`)
     parent.append(row)
     return row
 }
@@ -30,7 +36,7 @@ function complete(stage, image_object, image_node) {
     // downloadURI(dataURL, 'stage.png');
 }
 
-function renderStage(stage, data) {
+function replaceData(stage, data) {
     //replace text
     let text = stage.findOne('Text')
     text.setAttr('text', data.text)
@@ -53,15 +59,10 @@ function renderStage(stage, data) {
     });
 }
 
-function loadStage(json, id) {
+function createStage(json, id) {
     return Konva.Node.create(json, id);
 }
 
-function uuidv4() {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
-}
 
 function createID(ad_data) {
         //make unique id with some template data
@@ -70,7 +71,9 @@ function createID(ad_data) {
         return tagID
 }
 
-function c(width, height) {
+//TODO: need an add space first which includes an add row
+//space has details about the row and maybe controls
+function renderAddRow({width, height}) {
     const ad_row_container_id = `canvas_${width}x${height}_row`
     const ad_row_heading = $(`<div>
         <h5>Size: ${width}x${height}</h5>
@@ -80,20 +83,33 @@ function c(width, height) {
     return ad_row_container
 }
 
-//entry point
+function exctractDetails({width, height}) {
+    return {
+        width,
+        height
+    }
+}
 
+
+/* ENTRY POINT */
+
+//templates initialized in blade file
 templates.forEach(template => {
-    const template_data = JSON.parse(template.data)
-    const { attrs } = template_data
-    const { width, height } = attrs
-    console.log(width, height)
 
-    const ad_row_container = c(width, height)
+    //get canvas details from this template for grouping ads by size
+    const deserialized_data = JSON.parse(template.data)
+    const { attrs: canvas_attributes } = deserialized_data
+    const canvas_details = exctractDetails(canvas_attributes)
 
+    //add container, where grouped ads will be rendered into, to the DOM
+    const ad_row_container = renderAddRow(canvas_details)
+
+    //turn each inventory item into an add, and render it in correct group
     inventory_data.forEach(inventory_item => {
-        const ad_id = createID(template_data)
+        const ad_id = createID(deserialized_data)
         const tag = renderCanvasContainer(ad_id, ad_row_container);
-        const stage = loadStage(template_data, tag)
-        renderStage(stage, inventory_item)
+        const stage = createStage(deserialized_data, tag)
+        replaceData(stage, inventory_item)
     })
+
 })
