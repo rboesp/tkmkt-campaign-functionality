@@ -7,18 +7,18 @@ function uuidv4() {
 }
 
 
-function renderCanvasContainer(childID, parent) {
+function renderCanvasContainer(ad_id, ad_row) {
     const ad_preview = $(`
-        <div class='m-1 border border-primary' id=${childID}>
+        <div class='m-1 border border-primary p-2' id=${ad_id}>
         </div>
     `)
-    parent.append(ad_preview);
+    ad_row.append(ad_preview);
     return ad_preview[0];
 }
 
 function renderAdRowContainer(rowID, parentID) {
     const parent = $("#" + parentID)
-    const row = $(`<div class='border border-secondary d-flex flex-wrap' id=${rowID}></div>`)
+    const row = $(`<div class='m-2 border border-secondary' id=${rowID}></div>`)
     parent.append(row)
     return row
 }
@@ -73,11 +73,13 @@ function createID(ad_data) {
 
 //TODO: need an add space first which includes an add row
 //space has details about the row and maybe controls
-function renderAddRow({width, height}) {
+function renderDetailsArea({width, height}) {
     const ad_row_container_id = `canvas_${width}x${height}_row`
-    const ad_row_heading = $(`<div>
-        <h5>Size: ${width}x${height}</h5>
-    </div>`)
+    const ad_row_heading = $(`
+        <div class='border border-success p-2 m-2' >
+            <h5>Size: ${width}x${height}</h5>
+        </div>
+    `)
     const ad_row_container = renderAdRowContainer(ad_row_container_id, 'ad_container')
     ad_row_container.append(ad_row_heading)
     return ad_row_container
@@ -102,12 +104,24 @@ templates.forEach(template => {
     const canvas_details = exctractDetails(canvas_attributes)
 
     //add container, where grouped ads will be rendered into, to the DOM
-    const ad_row_container = renderAddRow(canvas_details)
+    const detailsArea = renderDetailsArea(canvas_details)
+    
+    //make row here then add it to details area
+    const row = $(`    
+        <div id="ad_row_${canvas_details.height}_${canvas_details.width}" 
+            class="border border-danger d-flex flex-wrap m-2"
+        >
+
+        </div>
+    `)
+
+    detailsArea.append(row)
+
 
     //turn each inventory item into an add, and render it in correct group
     inventory_data.forEach(inventory_item => {
         const ad_id = createID(deserialized_data)
-        const tag = renderCanvasContainer(ad_id, ad_row_container);
+        const tag = renderCanvasContainer(ad_id, row);
         const stage = createStage(deserialized_data, tag)
         replaceData(stage, inventory_item)
     })

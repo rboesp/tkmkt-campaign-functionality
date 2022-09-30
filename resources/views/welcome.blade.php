@@ -28,7 +28,7 @@
 <body style="overflow-y: scroll">
     <div>
         Cars
-        <div id="ad_container" class="d-flex flex-wrap border">
+        <div id="ad_container" class="d-flex flex-wrap border border-warning">
         </div>
     </div>
 
